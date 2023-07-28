@@ -1,0 +1,168 @@
+/*!
+ * Custom CSS
+ * Copyright 2018 CS6400 Team010
+ */
+
+
+ .login-card {
+    margin: auto;
+    margin-top: 10%;
+    margin-bottom: 20%;
+    max-width: 360px;
+}
+
+.menu-card {
+    margin: auto;
+    margin-top: 5%;
+    margin-bottom: 10%;
+    max-width: 360px;
+}
+
+.form-card {
+    margin: auto;
+    margin-top: 5%;
+    margin-bottom: 10%;
+    max-width:1000px;
+}
+
+.form-card .form {
+    margin:1em;
+}
+.login-card .form-group {
+    position: relative;
+}
+
+.login-card i{
+    position: absolute;
+    left: 9px;
+    top: 12px;
+    font-size: 14px;
+}
+
+.login-card .form-control {
+    padding-left: 32px;
+}
+
+
+.navbar-light .navbar-toggler {
+    color: rgba(0,0,0,.5);
+    border-color: rgba(0,0,0,.1);
+}
+.navbar-light .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(0, 0, 0, 0.5)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}
+
+.fa{
+    margin-right: 0.2em;
+    width: 1em;
+    text-align:center;
+}
+
+.hidden-text{
+    display: none;
+}
+
+@media (max-width: 800px) {
+.hidden-text{
+    display: inline;
+}
+}
+
+
+
+.form-group .info-col {
+    margin: auto;
+}
+
+form label {
+    font-weight: bold;
+}
+.table td{
+    vertical-align: text-bottom;
+    text-align: center;
+}
+tr{
+    text-align: center;
+}
+td .btn {
+    width: 6em;
+}
+
+.btn:disabled{
+    opacity: 0;
+}
+
+caption {
+    caption-side: top;
+    font-size: large;
+    color: #212529;
+}
+
+p {
+    color:blue;
+}
+h1 {
+    text-align: center;
+}
+
+body {
+    /* width: 80%; */
+    padding: 0 30px 40px 50px;
+    margin: 0 auto;
+    border: 5px solid black;
+}
+
+img {
+    display: block;
+    margin: 0 auto;
+}
+
+.subtitle {
+    font-size: 32px; 
+    text-align: center;
+    display: block;
+}
+
+.container {
+    width: 40%;
+    /* text-align: center; */
+    background-color:antiquewhite;
+}
+
+.article_layout {
+    width: 66%;
+    margin: 0 auto;
+      margin-top: 0px;
+    box-sizing: border-box;
+    padding: 0 20px;
+    background: #FFFFFF;
+    margin-top: 20px;
+    position: relative;
+}
+
+.article_title {
+    overflow:hidden;
+}
+
+.article_content
+
+li {
+    list-style-type: square;
+}
+
+h1 + p {
+    font-size: 50%;
+}
+
+a:link {
+    color: pink;
+  }
+  
+a:visited {
+    color: green;
+}
+  
+a:hover {
+    text-decoration: none;
+}
+  
