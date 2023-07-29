@@ -22,12 +22,12 @@ def hello():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        username = request.args.get('username')
-        password = request.args.get('password')
+        username = request.form['username']
+        password = request.form['password']
         cursor = db.cursor()
         sql = 'SELECT username FROM User WHERE username=%s AND password=%s'
         cursor.execute(sql,(username, password))
-        res = cursor.fetchall()
+        res = cursor.fetchone()
         if res:
             return 'login successed'
         return 'login failed'
@@ -38,6 +38,14 @@ def deleteBook(bookname):
     cursor = db.cursor()
     sql = 'DELETE FROM Book WHERE book_name=%s'
     cursor.execute(sql, bookname)
+    return redirect(url_for('booklist'))
+
+@app.route('/addBook', methods=['POST'])
+def addBook():
+    book_name = request.form['book_name']
+    cursor = db.cursor()
+    sql = 'INSERT INTO Book (book_name) VALUES (%s)'
+    cursor.execute(sql, book_name)
     return redirect(url_for('booklist'))
 
 @app.route('/booklist')

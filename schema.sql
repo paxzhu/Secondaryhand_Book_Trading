@@ -8,7 +8,10 @@ USE secondary_hand_trading_sys;
 -- CREATE TABLE User();
 
 CREATE TABLE Book(
-    book_name varchar(100)
+    book_name varchar(100),
+    username varchar(50) NOT NULL,
+    FOREIGN KEY (username)
+        REFERENCES User(username)
 );
 
 CREATE TABLE User(

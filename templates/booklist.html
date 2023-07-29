@@ -13,6 +13,12 @@
 </head>
 <body>
     <h1>BookList</h1>
+    <div>
+        <form action="{{ url_for('addBook') }}" method="post">
+            <input type="text" name="book_name" placeholder="bookname" required>
+            <button type="submit">Add</button>
+        </form>
+    </div>
     <div class="content">
     {% for book in books %}
         <div class="todo">
@@ -23,5 +29,6 @@
 
         </div>
     {% endfor %}
+    </div>
 </body>
 </html>
