@@ -29,9 +29,17 @@ def login():
         cursor.execute(sql,(username, password))
         res = cursor.fetchone()
         if res:
-            return 'login successed'
+            return redirect(url_for('mybooks', username=res[0]))
         return 'login failed'
     return render_template('login.html')
+
+@app.route('/mybooks/<username>')
+def mybooks(username):
+    cursor = db.cursor()
+    sql = 'SELECT book_name FROM Book WHERE username=%s'
+    cursor.execute(sql, username)
+    books = cursor.fetchall()
+    return render_template('mybooks.html', books=books)
 
 @app.route('/deleteBook/<bookname>', methods=['POST'])
 def deleteBook(bookname):

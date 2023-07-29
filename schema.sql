@@ -7,6 +7,12 @@ USE secondary_hand_trading_sys;
 
 -- CREATE TABLE User();
 
+CREATE TABLE User(
+    username varchar(50) NOT NULL,
+    password varchar(50) NOT NULL,
+    PRIMARY KEY(username)
+);
+
 CREATE TABLE Book(
     book_name varchar(100),
     username varchar(50) NOT NULL,
@@ -14,7 +20,3 @@ CREATE TABLE Book(
         REFERENCES User(username)
 );
 
-CREATE TABLE User(
-    username varchar(50) NOT NULL,
-    password varchar(50) NOT NULL
-);
