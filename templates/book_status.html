@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>FlaskApp</title>
+    <style>
+        .todo {
+            padding: 20px;
+            margin: 10px;
+            background-color: #eee;
+        }
+    </style>
+</head>
+<body>
+    <h1>Book Status</h1>
+    <h2>Requirements</h2>
+    {% for book in books %}
+        {% if book[2] %}
+            <p>{{ book[0] }}</p>
+            <form action="{{ url_for('allowRequest', bookname=book[0]) }}" method="post">
+                <button type="submit"> Allow </button>
+            </form>
+        {% endif %}
+    {% endfor %}
+    <h2>To Be Returned</h2>
+    {% for book in books %}
+        {% if book[3] == owner %}
+            <p>{{ book[0] }}</p>
+            <form action="{{ url_for('returnBook', bookname=book[0]) }}" method="post">
+                <button type="submit"> Return </button>
+            </form>
+        {% endif %}
+    {% endfor %}
+    <h2>My Books</h2>
+    <div>
+        <form action="{{ url_for('addBook') }}" method="post">
+            <input type="text" name="book_name" placeholder="bookname" required>
+            <button type="submit">Add</button>
+        </form>
+    </div>
+    <div class="content">
+    {% for book in books %}
+        {% if book[1] == owner %}
+        <div class="todo">
+            <p><i>{{ book[0] }}</i></p>
+            <form action="{{ url_for('deleteBook', bookname=book[0]) }}" method="post">
+                <button type="submit">Delete</button>
+            </form>
+        </div>
+        {% endif %}
+    {% endfor %}
+    </div>
+</body>
+</html>

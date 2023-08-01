@@ -16,6 +16,9 @@ CREATE TABLE User(
 CREATE TABLE Book(
     book_name varchar(100),
     username varchar(50) NOT NULL,
+    request varchar(50),
+    loaned_to varchar(50),
+    PRIMARY KEY(book_name),
     FOREIGN KEY (username)
         REFERENCES User(username)
 );
