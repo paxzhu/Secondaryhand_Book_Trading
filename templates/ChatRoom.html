@@ -12,9 +12,9 @@
     </style>
 </head>
 <body>
-    <h1>Trading Square</h1>
+    <h1>Chat Room</h1>
     <div>
-        <form action="{{ url_for('search')}}" method="post">
+        <form action="{{ url_for('searchFriend')}}" method="post">
             <input type="text" name="keyword" placeholder="keyword" required>
             <button type="submit">Search</button>
         </form>

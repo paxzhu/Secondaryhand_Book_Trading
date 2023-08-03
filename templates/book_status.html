@@ -13,7 +13,7 @@
 </head>
 <body>
     <h1>Book Status</h1>
-    <h2>Requirements</h2>
+    <h2>Request</h2>
     {% for book in books %}
         {% if book[2] %}
             <p>{{ book[0] }}</p>
@@ -34,7 +34,7 @@
     <h2>My Books</h2>
     <div>
         <form action="{{ url_for('addBook') }}" method="post">
-            <input type="text" name="book_name" placeholder="bookname" required>
+            <input type="text" name="bookname" placeholder="bookname" required>
             <button type="submit">Add</button>
         </form>
     </div>

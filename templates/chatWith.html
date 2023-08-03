@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>FlaskApp</title>
+</head>
+<body>
+    <h1>Chat with {{ friend }}</h1>
+    <div>
+    {% for _, sender, receiver, content, time in results %}
+        <p>{{ sender }}: <strong>{{ content }}</strong> <i>edited:{{ time }}</i></p>
+    {% endfor %}
+    </div>
+    <div class="content">
+        <form action="{{ url_for('sendMessage', friend=friend) }}" method="post">
+            <input type="text" name="input" placeholder="input" required>
+            <button type="submit">Send</button>
+        </form> 
+    </div>
+</body>
+</html>

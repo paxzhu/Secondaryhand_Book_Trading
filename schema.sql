@@ -14,12 +14,34 @@ CREATE TABLE User(
 );
 
 CREATE TABLE Book(
-    book_name varchar(100),
+    bookname varchar(100) NOT NULL,
     username varchar(50) NOT NULL,
     request varchar(50),
     loaned_to varchar(50),
-    PRIMARY KEY(book_name),
+    PRIMARY KEY(bookname),
     FOREIGN KEY (username)
         REFERENCES User(username)
 );
 
+CREATE TABLE Requests(
+    borrower varchar(50) NOT NULL,
+    bookname varchar(100) NOT NULL,
+    PRIMARY KEY(borrower, bookname),
+    FOREIGN KEY(borrower)
+        REFERENCES User(username),
+    FOREIGN KEY(bookname)
+        REFERENCES Book(bookname)
+);
+
+CREATE TABLE Messages(
+    ID INT NOT NULL AUTO_INCREMENT,
+    sender varchar(50) NOT NULL,
+    receiver varchar(50) NOT NULL,
+    content varchar(1000) NOT NULL,
+    time TIMESTAMP NOT NULL,
+    PRIMARY KEY(ID),
+    FOREIGN KEY(sender)
+        REFERENCES User(username),
+    FOREIGN KEY(receiver)
+        REFERENCES User(username)
+);
