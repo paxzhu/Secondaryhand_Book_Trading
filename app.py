@@ -154,9 +154,28 @@ def sendMessage(friend):
     cursor.execute(sql, (sender, receiver, content, time))
     return redirect(url_for('chatWith', friend=friend))
 
+@app.route('/searchDialog', methods=['POST'])
+def searchDialog():
+    friend = request.form['keyword']
+    return redirect(url_for('chatWith', friend=friend))
+
 @app.route('/dialogList')
 def dialogList():
-    pass
+    if 'username' not in session:
+        return redirect(url_for('login'))
+    sender = session['username']
+    cursor = db.cursor()
+    sql = """
+            SELECT DISTINCT 
+                CASE 
+                    WHEN sender=%s THEN receiver
+                    WHEN receiver=%s THEN sender
+                END AS friend
+            FROM Messages
+            WHERE sender=%s OR receiver=%s"""
+    cursor.execute(sql, (sender, sender, sender, sender))
+    friends = cursor.fetchall()
+    return render_template('chatRoom.html', friends=friends)
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
