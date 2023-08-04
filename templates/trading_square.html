@@ -23,11 +23,16 @@
     {% for book,master,request,status in books %}
         <div class="todo">
             <p><i>bookname: {{ book }}</i></p>
-            <p>owner: {{ master }}</p> 
+            <p>
+                <form action="{{ url_for('follows', followed=master) }}" method="post">
+                    <strong>owner: {{ master }}</strong>
+                    <button type="submit">Follows</button>
+                </form>                
+            </p>
             {% if status %}
                 <p>status: Busy</p>
             {% else %}
-            <p>status: Free</p>
+                <p>status: Free</p>
             <form action="{{ url_for('borrowBook', bookname=book) }}" method="post">
                 <button type="submit">Borrow</button>
             </form>

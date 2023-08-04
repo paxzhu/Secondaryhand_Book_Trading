@@ -50,8 +50,6 @@ def login():
         return 'login failed'
     return render_template('login.html')
 
-
-
 @app.route('/book_status')
 def book_status():
     if 'username' not in session:
@@ -127,7 +125,7 @@ def allowRequest(bookname):
 def denyRequest():
     pass
 
-# ==================ChatRoom================
+# ==================Chat Room================
 @app.route('/chatWith/<friend>/')
 def chatWith(friend):
     if 'username' not in session:
@@ -176,6 +174,49 @@ def dialogList():
     cursor.execute(sql, (sender, sender, sender, sender))
     friends = cursor.fetchall()
     return render_template('chatRoom.html', friends=friends)
+
+# ===================User List=========================
+def followedSet(follower):
+    cursor = db.cursor()
+    sql = 'SELECT followed FROM Follows WHERE follower=%s'
+    cursor.execute(sql, follower)
+    followeds =  cursor.fetchall()
+    print(followeds)
+    followeds = {followed[0] for followed in followeds}
+    return followeds
+
+@app.route('/userList')
+def userList():
+    if 'username' not in session:
+        return redirect(url_for('login'))
+    follower = session['username']
+    cursor = db.cursor()
+    sql = 'SELECT username FROM User WHERE username!=%s'
+    cursor.execute(sql, follower)
+    users =  cursor.fetchall()
+    followeds = followedSet(follower)
+    print(followeds)
+    return render_template('userList.html', users=users, followeds=followeds)
+
+@app.route('/follows/<followed>/', methods=['POST'])
+def follows(followed):
+    if 'username' not in session:
+        return redirect(url_for('login'))
+    follower = session['username']
+    cursor = db.cursor()
+    sql = 'INSERT INTO Follows(follower, followed) VALUES(%s, %s)'
+    cursor.execute(sql, (follower, followed))
+    return redirect(url_for('userList'))
+
+@app.route('/unfollowed/<followed>/', methods=['POST'])
+def unfollowed(followed):
+    if 'username' not in session:
+        return redirect(url_for('login'))
+    follower = session['username']
+    cursor = db.cursor()
+    sql = 'DELETE FROM Follows WHERE follower=%s and followed=%s'
+    cursor.execute(sql, (follower, followed))
+    return redirect(url_for('userList'))
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)

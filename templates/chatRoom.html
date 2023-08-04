@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>FlaskApp</title>
+    <style>
+        .todo {
+            padding: 20px;
+            margin: 10px;
+            background-color: #eee;
+        }
+    </style>
+</head>
+<body>
+    <h1>Chat Room</h1>
+    <div>
+        <form action="{{ url_for('searchDialog') }}" method="post">
+            <input type="text" name="keyword" placeholder="keyword" required>
+            <button type="submit">Search</button>
+        </form>
+    </div>
+    <div class="content">
+    {% for friend in friends %}
+        <p><a href="{{ url_for('chatWith', friend=friend) }}">{{ friend[0] }}</a></p>
+    {% endfor %}
+    </div>
+</body>
+</html>

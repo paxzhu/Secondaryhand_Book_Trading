@@ -45,3 +45,13 @@ CREATE TABLE Messages(
     FOREIGN KEY(receiver)
         REFERENCES User(username)
 );
+
+CREATE TABLE Follows(
+    follower varchar(50) NOT NULL,
+    followed varchar(50) NOT NULL,
+    PRIMARY KEY(follower, followed),
+    FOREIGN KEY(follower)
+        REFERENCES User(username),
+    FOREIGN KEY(followed)
+        REFERENCES User(username)
+);

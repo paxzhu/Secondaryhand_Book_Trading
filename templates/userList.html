@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>FlaskApp</title>
+    <style>
+        .todo {
+            padding: 20px;
+            margin: 10px;
+            background-color: #eee;
+        }
+    </style>
+</head>
+<body>
+    <h1>User List</h1>
+    <div>
+        {% for user in users %}
+            <p>
+                {% if user[0] in followeds %}
+                    <form action="{{ url_for('unfollowed', followed=user[0])}}" method="post">
+                        <strong>{{ user[0] }}</strong>
+                        <button type="submit">Unfollowed</button>
+                    </form>
+                {% else %}
+                    <form action="{{ url_for('follows', followed=user[0])}}" method="post">
+                        <strong>{{ user[0] }}</strong>
+                        <button type="submit">Follows</button>
+                    </form>   
+                {% endif %}
+            </p>
+        {% endfor %}
+    </div>
+</body>
+</html>

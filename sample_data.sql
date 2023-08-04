@@ -26,3 +26,11 @@ INSERT INTO Messages(ID, sender, receiver, content, time) VALUES
 (8, 'leo', 'Mike', 'hahahaha', from_unixtime(1691043200)),
 (9, 'white', 'tony', 'get up!', from_unixtime(1691040000)),
 (10, 'cerly', 'lily', 'go school', from_unixtime(1691041000));
+
+INSERT INTO Follows(follower, followed) VALUES
+('leo', 'li'),
+('leo', 'lily'),
+('leo', 'tony'),
+('leo', 'Mike'),
+('white', 'tony'),
+('cerly', 'lily');
