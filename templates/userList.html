@@ -1,17 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>FlaskApp</title>
-    <style>
-        .todo {
-            padding: 20px;
-            margin: 10px;
-            background-color: #eee;
-        }
-    </style>
-</head>
-<body>
+{% extends 'base.html' %}
+{% block title%}UserList{% endblock %}
+{% block content%}
     <h1>User List</h1>
     <div>
         {% for user in users %}
@@ -30,5 +19,5 @@
             </p>
         {% endfor %}
     </div>
-</body>
+{% endblock %}
 </html>

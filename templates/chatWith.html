@@ -1,10 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>FlaskApp</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% block title %} chatWith {% endblock %}
+{% block content %}
     <h1>Chat with {{ friend }}</h1>
     <div>
     {% for _, sender, receiver, content, time in results %}
@@ -17,5 +13,5 @@
             <button type="submit">Send</button>
         </form> 
     </div>
-</body>
+{% endblock %}
 </html>

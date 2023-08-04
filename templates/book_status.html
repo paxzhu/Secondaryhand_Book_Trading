@@ -1,17 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>FlaskApp</title>
-    <style>
-        .todo {
-            padding: 20px;
-            margin: 10px;
-            background-color: #eee;
-        }
-    </style>
-</head>
-<body>
+{% extends 'base.html' %}
+{% block title %} Book status {% endblock %}
+{% block content %}
     <h1>Book Status</h1>
     <h2>Request</h2>
     {% for book in books %}
@@ -50,5 +39,5 @@
         {% endif %}
     {% endfor %}
     </div>
-</body>
+{% endblock %}
 </html>
