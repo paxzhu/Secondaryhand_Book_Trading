@@ -1,21 +1,21 @@
 {% extends 'base.html' %}
-{% block title %} Book status {% endblock %}
+{% block title %} Book Status {% endblock %}
 {% block content %}
     <h1>Book Status</h1>
     <h2>Request</h2>
     {% for book in books %}
-        {% if book[2] %}
-            <p>{{ book[0] }}</p>
-            <form action="{{ url_for('allowRequest', bookname=book[0]) }}" method="post">
+        {% if book['request'] %}
+            <p>{{ book['bookname'] }}</p>
+            <form action="{{ url_for('allowRequest', bookname=book['bookname']) }}" method="post">
                 <button type="submit"> Allow </button>
             </form>
         {% endif %}
     {% endfor %}
     <h2>To Be Returned</h2>
     {% for book in books %}
-        {% if book[3] == owner %}
-            <p>{{ book[0] }}</p>
-            <form action="{{ url_for('returnBook', bookname=book[0]) }}" method="post">
+        {% if book['loaned_to'] == owner %}
+            <p>{{ book['bookname'] }}</p>
+            <form action="{{ url_for('returnBook', bookname=book['bookname']) }}" method="post">
                 <button type="submit"> Return </button>
             </form>
         {% endif %}
@@ -29,10 +29,10 @@
     </div>
     <div class="content">
     {% for book in books %}
-        {% if book[1] == owner %}
+        {% if book['username'] == owner %}
         <div class="todo">
-            <p><i>{{ book[0] }}</i></p>
-            <form action="{{ url_for('deleteBook', bookname=book[0]) }}" method="post">
+            <p><i>{{ book['bookname'] }}</i></p>
+            <form action="{{ url_for('deleteBook', bookname=book['bookname']) }}" method="post">
                 <button type="submit">Delete</button>
             </form>
         </div>

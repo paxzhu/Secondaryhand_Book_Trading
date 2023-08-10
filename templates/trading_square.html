@@ -23,11 +23,14 @@
             {% else %}
                 <p>status: Free</p>
             <form action="{{ url_for('borrowBook', bookname=book) }}" method="post">
-                <button type="submit">Borrow</button>
+                <button class="test" type="submit">Borrow</button>
             </form>
             {% endif %}
         </div>
     {% endfor %}
     </div>
 {% endblock %}
+<script on>
+    
+</script>
 </html>

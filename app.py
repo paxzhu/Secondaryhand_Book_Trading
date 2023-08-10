@@ -1,11 +1,11 @@
 from flask import Flask, render_template, request, url_for, redirect, session
 import pymysql
 from datetime import datetime
-
+import redis
+import json
 # Set the secret key to some random bytes. Keep this really secret!
 
 app = Flask(__name__)
-app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 
 db_info = dict(
     host='localhost',
@@ -24,60 +24,94 @@ def getBookMetaData(bookname):
     metaData = cursor.fetchone()
     return metaData
 
+@app.route('/getBookRequest', methods=['POST'])
+def getBookRequest():
+    bookname = request.form['bookname']
+    cursor = db.cursor()
+    sql = 'SELECT request FROM Book WHERE bookname=%s'
+    cursor.execute(sql, bookname)
+    requested = cursor.fetchone()
+    return {'requested': requested}
+
 def saveMessage():
     cursor = db.cursor()
     sql = 'INSERT INTO Message(sender, action, bookname, receiver) VALUES(%s, %s, %s, %s)'
     cursor.execute(sql, (sender, action, bookname, receiver))
 
-@app.route('/')
+@app.route('/hello', methods=['GET', 'POST'])
 def hello():
-    
-    return 'hello'
+    if request.method == 'POST':
+        print(request.form)
+        return 'ok'
+    return render_template('test.html')
 
 # login. redirect to user's home page
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-        cursor = db.cursor()
-        sql = 'SELECT username FROM User WHERE username=%s AND password=%s'
-        cursor.execute(sql,(username, password))
-        res = cursor.fetchone()
-        if res:
-            session['username'] = res[0]
-            return redirect(url_for('book_status'))
-        return 'login failed'
-    return render_template('login.html')
+# @app.route('/login', methods=['GET', 'POST'])
+# def login():
+#     if request.method == 'POST':
+#         username = request.form['username']
+#         password = request.form['password']
+#         cursor = db.cursor()
+#         sql = 'SELECT username FROM User WHERE username=%s AND password=%s'
+#         cursor.execute(sql,(username, password))
+#         res = cursor.fetchone()
+#         if res:
+#             session['username'] = res[0]
+#             return redirect(url_for('book_status'))
+#         return 'login failed'
+#     return render_template('login.html')
 
-@app.route('/book_status')
+@app.route('/login', methods=['POST'])
+def login():
+    username = request.form['username']
+    password = request.form['password']
+    print(username, password)
+    cursor = db.cursor()
+    sql = 'SELECT username FROM User WHERE username=%s AND password=%s'
+    cursor.execute(sql,(username, password))
+    res = cursor.fetchone()
+    print(res)
+    if res:
+        return {'status':'success', 'username':username}
+    return {'status':'failed'}
+    
+
+# @app.route('/book_status')
+# def book_status():
+#     if 'username' not in session:
+#         return redirect(url_for('login'))
+#     username = session['username']
+#     cursor = db.cursor()
+#     sql = 'SELECT * FROM Book WHERE username=%s OR loaned_to=%s'
+#     cursor.execute(sql, (username, username))
+#     books = cursor.fetchall()
+#     return render_template('book_status.html', books=books, owner=username)
+
+@app.route('/book_status', methods=['POST'])
 def book_status():
-    if 'username' not in session:
-        return redirect(url_for('login'))
-    username = session['username']
+    username = request.form['username']
     cursor = db.cursor()
     sql = 'SELECT * FROM Book WHERE username=%s OR loaned_to=%s'
     cursor.execute(sql, (username, username))
     books = cursor.fetchall()
-    return render_template('book_status.html', books=books, owner=username)
+    books = [{'bookname':book[0], 'username':book[1], 'request':book[2], 'loaned_to':book[3]} for book in books]
+    return json.dumps(books)
 
-@app.route('/deleteBook/<bookname>', methods=['POST'])
-def deleteBook(bookname):
+@app.route('/deleteBook', methods=['POST'])
+def deleteBook():
+    bookname = request.form['bookname']
     cursor = db.cursor()
     sql = 'DELETE FROM Book WHERE bookname=%s'
     cursor.execute(sql, bookname)
-    return redirect(url_for('book_status'))
+    return {'status':'ok'}
 
 @app.route('/addBook', methods=['POST'])
 def addBook():
-    if 'username' not in session:
-        return redirect(url_for('login'))
-    username = session['username']
-    bookname = request.form['bookname']
+    username, bookname = request.form['username'], request.form['bookname']
     cursor = db.cursor()
     sql = 'INSERT INTO Book(bookname, username, loaned_to) VALUES(%s, %s, NULL)'
     cursor.execute(sql, (bookname, username))
-    return redirect(url_for('book_status'))
+    return {'status':'ok'}
 
 @app.route('/trading_square')
 def trading_square():
@@ -85,7 +119,9 @@ def trading_square():
     sql = 'SELECT * FROM Book'
     cursor.execute(sql)
     books = cursor.fetchall()
-    return render_template('trading_square.html', books=books)
+    # print(books)
+    # print(json.dumps(books))
+    return json.dumps(books)
 
 @app.route('/search', methods=['POST'])
 def search():
@@ -94,32 +130,31 @@ def search():
     sql = f"SELECT * FROM Book WHERE bookname like '%{keyword}%'"
     cursor.execute(sql)
     results = cursor.fetchall()
-    return render_template('trading_square.html', books=results)
+    return json.dumps(results)
 
-@app.route('/borrowBook/<bookname>', methods=['POST'])
-def borrowBook(bookname):
-    if 'username' not in session:
-        return redirect(url_for('login'))
-    username = session['username']
+@app.route('/borrowBook', methods=['POST'])
+def borrowBook():
+    username, bookname = request.form['username'], request.form['bookname']
     cursor = db.cursor()
     sql = 'UPDATE Book SET request=%s WHERE bookname=%s'
     cursor.execute(sql, (username, bookname))
-    return redirect(url_for('trading_square'))
+    return {'status':'ok'}
 
-@app.route('/returnBook/<bookname>', methods=['POST'])
-def returnBook(bookname):
+@app.route('/returnBook', methods=['POST'])
+def returnBook():
+    bookname = request.form['bookname']
     cursor = db.cursor()
     sql = 'UPDATE Book SET loaned_to=NULL WHERE bookname=%s'
     cursor.execute(sql, bookname)
-    return redirect(url_for('book_status'))
+    return {'status':'ok'}
 
-@app.route('/allowRequest/<bookname>', methods=['POST'])
-def allowRequest(bookname):
-    _, _, request, _ =  getBookMetaData(bookname)
+@app.route('/allowRequest', methods=['POST'])
+def allowRequest():
+    bookname = request.form['bookname']
     cursor = db.cursor()
-    sql = 'UPDATE Book SET request=NULL, loaned_to=%s WHERE bookname=%s'
-    cursor.execute(sql, (request, bookname))
-    return redirect(url_for('book_status'))
+    sql = 'UPDATE Book SET loaned_to=request, request=NULL WHERE bookname=%s'
+    cursor.execute(sql, bookname)
+    return {'status':'ok'}
 
 @app.route('/denyRequest', methods=['POST'])
 def denyRequest():
