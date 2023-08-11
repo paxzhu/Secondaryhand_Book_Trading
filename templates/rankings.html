@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %} Rankings {% endblock %}
+{% block content%}
+    <h1>Top 10 Clicks</h1>
+    <table>
+        <tr>
+            <th scope="col">Book</th>
+            <th scope="col">Owner</th>
+            <th scope="col">Clicks</th>
+        </tr>
+        {% for book, it in rankings %}
+        <tr>
+            <td>{{ book }}</td>
+            <td>{{ it['owner'] }}</td>
+            <td>{{ it['clicks'] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    
+{% endblock %}

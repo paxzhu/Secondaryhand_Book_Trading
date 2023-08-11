@@ -43,7 +43,7 @@ def get_top10_clicks():
         decoded_value = value.decode('utf-8')
         decoded_data[decoded_key] = json.loads(decoded_value)
     sorted_data = sorted(decoded_data.items(), key=lambda item: item[1]['clicks'], reverse=True)
-    return dict(sorted_data)
+    return sorted_data
 
 if __name__ == '__main__':
     print(get_top10_clicks())
