@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}Resource Status{% endblock %}
+
+{% block content %}
+<div class="card form-card">
+    <button class="btn">test</button>
+</div>
+{% endblock %}
+
+{% block tail %}
+<script>
+    
+    function postRequest(){
+        var button = this;
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "hello", true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        var resourceID = button.getAttribute('data-id');
+        var abbreviation = button.getAttribute('data-abbr');
+        var number = button.getAttribute('data-no');
+        var action = button.textContent.trim();
+        console.log(resourceID);
+        data = {
+            resourceID : resourceID,
+            abbreviation: abbreviation,
+            number : number,
+            action: action
+        }
+        var queryString = Object.keys(data).map(function(key) {
+            return encodeURIComponent(key) + '=' + encodeURIComponent(data[key]);
+        }).join('&');
+        xhr.send(queryString);
+        console.log('has posted');
+        button.disabled = true;
+        var siblings = button.parentElement.children;
+        for (var i = 0; i < siblings.length; i++) {
+            siblings[i].disabled = true;
+        }
+    }
+    var buttons = document.querySelectorAll('.btn');
+    buttons.forEach(button => {
+        button.addEventListener('click', postRequest)
+    });
+    
+</script>
+{% endblock %}

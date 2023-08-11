@@ -1,0 +1,20 @@
+站内信（站内聊天）
+搜索好友
+	sender和receiver是M-N关系，sender
+聊天列表
+对话:
+	消息队列 时间排序
+	消息发送框，发送后更新该对话页面
+	
+书单广场	
+搜索书名:
+	依次列出包含该书名的所以书籍信息
+	（sql = f"SELECT * FROM Book WHERE book_name like '%{book_name}%'"）
+
+借书(M——N), 一个人可以借很多本书，一本书可以被很多人借
+	当一本书被借出去后，就不能被借了
+	users-requests-books
+	将requests单独作为一个表，记录借书人，书名，（借书时间，归还时间）后两者可以暂时不要
+	根据requests可以构建(要用到join)book_owner的myrequest的版块，book_owner可以选择任意一个借出，（如果是多个人请求同一本书，借出后，在关于该书的request部分删除 ，而对其他未能借到书的人，再搜索该书时，书是not available状态）
+	暂时可以没有inuse部分
+	参考cs6400 app.py findmyrequests
