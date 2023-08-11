@@ -13,44 +13,8 @@ db = pymysql.connect(**db_info)
 
 r = redis.Redis(host='localhost', port=6379, db=1)
 
-# cache the contents of trading square
-def get_table_columns(table):
-    with db.cursor() as cursor:
-        sql = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = %s"
-        cursor.execute(sql, table)
-        columns = cursor.fetchall()
-    columns = [col[0] for col in columns]
-    return columns
+# =================cache the contents of trading square=================
 
-def get_table_info(table):
-    with db.cursor() as cursor:
-        sql = f"SELECT * FROM {table}"
-        cursor.execute(sql)
-        infos = cursor.fetchall()
-    return infos
-
-def getTables():
-    cursor = db.cursor()
-    with db.cursor() as cursor:
-        sql = "SHOW TABLES"
-        cursor.execute(sql)
-        tables = cursor.fetchall()
-    # 提取表名并打印
-    tables = [table[0] for table in tables]
-    print(tables)
-    for table in tables:
-        putIntoRedis(table)
-
-def putIntoRedis(table):
-    cols = get_table_columns(table)
-    infos = get_table_info(table)
-    
-    print(infos)
-    for info in infos:
-        book_name = book[0]
-        r.hset(book_name, "username", book[1])
-        r.hset(book_name, "request", book[2] or "")
-        r.hset(book_name, "loaned_to", book[3] or "")
 
 # =====================cache the top10clicks to Redis===================
 
