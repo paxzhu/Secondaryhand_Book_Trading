@@ -55,3 +55,11 @@ CREATE TABLE Follows(
     FOREIGN KEY(followed)
         REFERENCES User(username)
 );
+
+CREATE TABLE Click(
+    book varchar(100) NOT NULL,
+    count INT NOT NULL,
+    PRIMARY KEY(book),
+    FOREIGN KEY(book)
+        REFERENCES Book(bookname)
+);

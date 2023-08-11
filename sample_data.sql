@@ -34,3 +34,9 @@ INSERT INTO Follows(follower, followed) VALUES
 ('leo', 'Mike'),
 ('white', 'tony'),
 ('cerly', 'lily');
+
+INSERT INTO Click(book, count) VALUES
+('book_a', 1000),
+('book_d', 100),
+('book_c', 150),
+('book_b', 550);
