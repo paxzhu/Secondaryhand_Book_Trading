@@ -165,4 +165,10 @@ a:visited {
 a:hover {
     text-decoration: none;
 }
-  
+
+.center {
+    display: flex;
+    justify-content: center;
+    /* align-items: center; */
+    height: 100vh; /* 可以根据需要调整 */
+}

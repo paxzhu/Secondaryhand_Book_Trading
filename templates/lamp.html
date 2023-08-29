@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <style>
+        .blue-square {
+        width: 100px;
+        height: 100px;
+        background-color: blue;
+        }
+        .black-square {
+        width: 100px;
+        height: 100px;
+        background-color: black;
+        }
+    </style>
+</head>
+<body>
+    <div class="blue-square" id="lamp0">lamp0</div>
+    <div class="blue-square" id="lamp1">lamp1</div>
+    <div class="blue-square" id="lamp2">lamp2</div>
+    <button id="btn0">Switch Lamp 0 & Lamp 1</button>
+    <button id="btn1">Switch Lamp 1 & Lamp 2</button>
+<script>
+
+    function SwitchLamp(elem){
+        if(elem.classList.contains('blue-square')){
+            elem.classList.remove('blue-square');
+            elem.classList.add('black-square');
+        }
+        else if(elem.classList.contains('black-square')){
+            elem.classList.remove('black-square');
+            elem.classList.add('blue-square');
+        }
+    }
+
+    const lamp0 = document.getElementById("lamp0");
+    const lamp1 = document.getElementById("lamp1");
+    const lamp2 = document.getElementById("lamp2");
+    const btn0 = document.getElementById("btn0");
+    const btn1 = document.getElementById("btn1");
+
+    btn0.addEventListener('click', () => {
+        SwitchLamp(lamp0);
+        SwitchLamp(lamp1);
+    })
+    btn1.addEventListener('click', () => {
+        SwitchLamp(lamp1);
+        SwitchLamp(lamp2);
+    })
+</script>
+</body>
+
+</html>

@@ -3,34 +3,48 @@
 {% block content %}
     <h1>Trading Square</h1>
     <div>
-        <form action="{{ url_for('search')}}" method="post">
-            <input type="text" name="keyword" placeholder="keyword" required>
-            <button type="submit">Search</button>
+        <form class="d-flex">
+            <input type="text" name="keyword"  placeholder="keyword">
+            <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
         </form>
-    </div>
-    <div class="content">
-    {% for book,master,request,status in books %}
-        <div class="todo">
-            <p><i>bookname: {{ book }}</i></p>
-            <p>
-                <form action="{{ url_for('follows', followed=master) }}" method="post">
-                    <strong>owner: {{ master }}</strong>
-                    <button type="submit">Follows</button>
-                </form>                
-            </p>
-            {% if status %}
-                <p>status: Busy</p>
-            {% else %}
-                <p>status: Free</p>
-            <form action="{{ url_for('borrowBook', bookname=book) }}" method="post">
-                <button class="test" type="submit">Borrow</button>
-            </form>
-            {% endif %}
-        </div>
-    {% endfor %}
-    </div>
+    <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">BookName</th>
+            <th scope="col">Owner</th>
+            <th scope="col">Status</th>
+            <th scope="col">You can</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for book,master,request,status in books %}
+            <tr class="table-primary">
+                <th scope="row">{{ book }}</th>
+                <td>
+                    {{ master }}
+                </td>
+                {% if status %}
+                <td>Busy</td>
+                <td><button class="btn btn-outline-secondary" type="button">Wait</button></td>
+                {% else %}
+                <td>Free</td>
+                <td>
+                    <button class="btn btn-secondary" onclick="handleClick()" type="button"></button>
+                    <form action="{{ url_for('borrowBook', bookname=book) }}" method="post">
+                        <button class="btn btn-secondary" type="submit">Borrow</button>
+                    </form>
+                </td>
+                {% endif %}
+                
+            </tr>
+            {% endfor %}
+        </tbody>
+      </table>
 {% endblock %}
 <script on>
-    
+    function handleClick(){
+        var button = this;
+        
+    }
 </script>
 </html>
